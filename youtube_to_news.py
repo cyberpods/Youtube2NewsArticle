@@ -79,15 +79,15 @@ def sanitize_file_title(title):
     sanitized_title = re.sub(r'[<>:"/\\|?*]', '', title)
     return sanitized_title
 
-st.markdown('# 📝 **Youtube video to News Article Generator App**')
+st.markdown('# 📝 **Youtube to News Article Generator App**')
 
 st.header('Input the Video URL')
 
 url_link = st.text_input('Enter URL of YouTube video:')
 
-create_audio = st.checkbox("Create TTS Audio")
+create_audio = st.checkbox("Create TTS Audio?")
 
-edit_prompt = st.checkbox("Edit Prompt")
+edit_prompt = st.checkbox("Edit Prompt?")
 
 if edit_prompt:
     prompt = st.text_area("Edit Prompt", value="Compose an engaging news article, approximately 500 words long, highlighting the fascinating details surrounding the following text:")
