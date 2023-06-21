@@ -1,70 +1,76 @@
-YouTube Video to News Article Generator
-This code provides a web application that allows users to generate a news article based on the transcript of a YouTube video. The application uses various libraries and APIs to download the audio from the video, convert it to text, and generate a news article based on the provided prompt and transcript.
+# Youtube Video to News Article Generator App
 
-Installation
-To install and run the code, follow the instructions below based on your operating system.
+This is a Python application that allows you to generate a news article from a YouTube video's transcript. The application uses various libraries and APIs to download the audio from the YouTube video, transcribe it, generate a news article based on the transcript, and optionally create text-to-speech (TTS) audio for the article. The generated transcript, article, and audio files are then saved and packaged into a ZIP file for easy download.
 
-Windows
-Install Python 3.x from the official website: https://www.python.org/downloads/
-Download the code files and extract them to a folder.
-Open a command prompt and navigate to the folder where the code files are located.
-Create a virtual environment (optional but recommended):
-Copy code
-python -m venv myenv
-Activate the virtual environment:
-Copy code
-myenv\Scripts\activate
-Install the required Python packages:
-Copy code
-pip install -r requirements.txt
-Set the environment variable for the OpenAI API key (replace <YOUR_API_KEY> with your actual API key):
-arduino
-Copy code
-set OPENAI_API_KEY=<YOUR_API_KEY>
-Run the application:
-php
-Copy code
-python <filename>.py
-Linux and macOS
-Install Python 3.x if it is not already installed (check with python3 --version).
-Download the code files and extract them to a folder.
-Open a terminal and navigate to the folder where the code files are located.
-Create a virtual environment (optional but recommended):
-Copy code
-python3 -m venv myenv
-Activate the virtual environment:
-bash
-Copy code
-source myenv/bin/activate
-Install the required Python packages:
-Copy code
-pip install -r requirements.txt
-Set the environment variable for the OpenAI API key (replace <YOUR_API_KEY> with your actual API key):
-arduino
-Copy code
-export OPENAI_API_KEY=<YOUR_API_KEY>
-Run the application:
-php
-Copy code
-python3 <filename>.py
-Replace <filename> with the actual name of the Python file containing the code.
+## Installation and Setup
 
-Requirements
-The requirements.txt file contains the necessary Python packages and their versions for running the code. Use the following command to install them:
+### Prerequisites
+- Python 3.x installed on your system
+- pip package manager installed
 
-Copy code
-pip install -r requirements.txt
-Make sure to run this command within the virtual environment (if you created one) to keep the dependencies isolated.
+### Steps
+1. Clone or download the code from the repository.
+2. Open a terminal or command prompt and navigate to the project directory.
 
-Usage
-After running the application, a web page will open in your default browser.
-Input the URL of the YouTube video in the provided text field.
-Optionally, check the "Create TTS Audio" checkbox to generate a text-to-speech (TTS) audio version of the news article.
-Optionally, check the "Edit Prompt" checkbox to modify the default prompt for generating the news article.
-Click the "Start" button to begin the process.
-The audio from the YouTube video will be downloaded and processed. The audio file will be displayed and played on the web page.
-The transcript of the audio will be generated and shown on the web page.
-The news article will be generated based on the transcript and the provided prompt. The generated article will be displayed on the web page.
-If the "Create TTS Audio" checkbox is checked, the TTS audio version of the news article will be generated and displayed on the web page.
-The transcript, article, and (optionally) the TTS audio file will be saved as text files in a ZIP archive.
-A download link for the ZIP archive will be provided on the web
+#### Windows
+3. Create a virtual environment (optional):
+   ```
+   python -m venv venv
+   ```
+   Activate the virtual environment:
+   ```
+   venv\Scripts\activate
+   ```
+   
+#### Linux/Mac
+3. Create a virtual environment (optional):
+   ```
+   python3 -m venv venv
+   ```
+   Activate the virtual environment:
+   ```
+   source venv/bin/activate
+   ```
+
+4. Install the required Python packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+### Running the Application
+
+#### Windows
+```
+python main.py
+```
+
+#### Linux/Mac
+```
+python3 main.py
+```
+
+1. The application will launch in your default web browser.
+2. Input the YouTube video URL in the provided text box.
+3. Select the options to create TTS audio and/or edit the prompt (optional).
+4. Click the "Start" button to initiate the process.
+
+### Output
+
+- The application will download the audio from the YouTube video, transcribe it, and display the generated transcript.
+- It will then generate a news article based on the provided prompt and transcript.
+- The generated news article will be displayed.
+- If the "Create TTS Audio" option is selected, the application will generate an MP3 audio file for the news article and play it.
+- The transcript, article, and audio files will be saved in the "output" directory.
+- A ZIP file containing the transcript, article, and audio files will be created and available for download.
+
+## Requirements.txt
+
+```
+streamlit==0.87.0
+whisper==0.3.2
+openai==0.29.0
+pytube==11.0.1
+gtts==2.2.3
+```
