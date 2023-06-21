@@ -35,8 +35,8 @@ def save_audio(url):
         os.remove(file_name)
         os.rename(out_file, file_name)
     audio_filename = os.path.join(temp_directory, Path(file_name).stem+'.mp3')
-    print(yt.title + " Has been successfully downloaded")
-    print(audio_filename)
+    st.info(yt.title + " has been successfully downloaded")
+    st.audio(audio_filename)
     return yt.title, audio_filename, temp_directory
 
 def limit_string_length(string, max_length):
@@ -98,8 +98,6 @@ if st.button('Start'):
     with st.spinner('Downloading and processing the audio...'):
         # Download and process the audio file
         video_title, audio_filename, temp_directory = save_audio(url_link)
-        st.markdown("**Source audio**")
-        st.audio(audio_filename)
 
     with st.spinner('Transcript is being generated...'):
         # Generate the transcript from the audio file
@@ -119,7 +117,7 @@ if st.button('Start'):
             tts_filename = "tts_news_article.mp3"
             generate_tts_audio(result, tts_filename)
             st.audio(tts_filename, format='audio/mp3')
-    
+
     # Prepare filenames with the sanitized title
     sanitized_title = sanitize_file_title(video_title)
     title_words = sanitized_title.split()[:5]
