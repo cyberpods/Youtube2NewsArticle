@@ -90,9 +90,9 @@ create_audio = st.checkbox("Create TTS Audio")
 edit_prompt = st.checkbox("Edit Prompt")
 
 if edit_prompt:
-    prompt = st.text_area("Edit Prompt", value="Compose an engaging news article, approximately 500 words long, highlighting the fascinating details surrounding the following test:")
+    prompt = st.text_area("Edit Prompt", value="Compose an engaging news article, approximately 500 words long, highlighting the fascinating details surrounding the following text:")
 else:
-    prompt = "Compose an engaging news article, approximately 500 words long, highlighting the fascinating details surrounding the following test:"
+    prompt = "Compose an engaging news article, approximately 500 words long, highlighting the fascinating details surrounding the following text:"
 
 if st.button('Start'):
     with st.spinner('Downloading and processing the audio...'):
