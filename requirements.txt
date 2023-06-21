@@ -1,6 +1,5 @@
-streamlit
-openai
-pytube
-whisper
-python-dotenv
-gtts
+streamlit==0.87.0
+whisper==0.3.2
+openai==0.29.0
+pytube==11.0.1
+gtts==2.2.3
