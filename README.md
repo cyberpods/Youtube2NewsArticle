@@ -8,7 +8,7 @@ This application allows you to generate a news article from a YouTube video's au
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-repo-url.git
+   git clone https://github.com/cyberpods/Youtube2NewsArticle.git
    ```
 
 2. Install the required Python packages. You can use `pip` to install the dependencies listed in the `requirements.txt` file:
@@ -24,7 +24,7 @@ This application allows you to generate a news article from a YouTube video's au
 1. Run the application:
 
    ```
-   streamlit run main.py
+   streamlit run youtube_to_news.py
    ```
 
 2. Access the application in your web browser at `http://localhost:8501`.
