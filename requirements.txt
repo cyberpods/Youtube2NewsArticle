@@ -1,0 +1,6 @@
+streamlit
+openai
+pytube
+whisper
+python-dotenv
+gtts
