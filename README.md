@@ -49,6 +49,8 @@ This application uses the OpenAI API to transcribe the audio and generate the ne
 
 Make sure you review the OpenAI API documentation for usage limits and pricing details.
 
+## Screenshot
+Sceenshot https://github.com/cyberpods/Youtube2NewsArticle/blob/main/screenshot.png
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
