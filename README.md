@@ -53,6 +53,5 @@ Make sure you review the OpenAI API documentation for usage limits and pricing d
 
 This project is licensed under the [MIT License](LICENSE).
 
----
-
-Feel free to customize and enhance the application according to your needs.
+ 
+ 
