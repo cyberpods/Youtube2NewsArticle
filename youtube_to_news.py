@@ -27,8 +27,14 @@ def save_audio(url):
     yt = YouTube(url)
     video = yt.streams.filter(only_audio=True).first()
     out_file = video.download(output_path=temp_directory)
-    audio_filename = os.path.join(temp_directory, f"{Path(out_file).stem}.mp3")
-    os.rename(out_file, audio_filename)
+    base, ext = os.path.splitext(out_file)
+    file_name = base + '.mp3'
+    try:
+        os.rename(out_file, file_name)
+    except WindowsError:
+        os.remove(file_name)
+        os.rename(out_file, file_name)
+    audio_filename = os.path.join(temp_directory, Path(file_name).stem+'.mp3')
     st.info(yt.title + " has been successfully downloaded")
     st.audio(audio_filename)
     return yt.title, audio_filename, temp_directory
