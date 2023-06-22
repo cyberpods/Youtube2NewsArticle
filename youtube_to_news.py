@@ -13,26 +13,31 @@ import tempfile
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-@st.cache
+@st.cache_data
 def load_model():
     # Load the whisper model
     model = whisper.load_model("base")
     return model
 
 def save_audio(url):
+    # Create a temporary directory
+    temp_directory = tempfile.mkdtemp()
+
     # Download the audio file from the given YouTube URL
     yt = YouTube(url)
     video = yt.streams.filter(only_audio=True).first()
-    out_file = video.download()
+    out_file = video.download(output_path=temp_directory)
     audio_filename = os.path.join(temp_directory, f"{Path(out_file).stem}.mp3")
     os.rename(out_file, audio_filename)
     st.info(yt.title + " has been successfully downloaded")
     st.audio(audio_filename)
-    return yt.title, audio_filename
+    return yt.title, audio_filename, temp_directory
 
 def limit_string_length(string, max_length):
     # Limit the length of a string to a maximum length
-    return string[:max_length]
+    if len(string) > max_length:
+        string = string[:max_length]  # Slice the string up to the maximum length
+    return string
 
 def audio_to_transcript(audio_file):
     # Convert audio file to transcript using the loaded whisper model
@@ -86,7 +91,7 @@ else:
 if st.button('Start'):
     with st.spinner('Downloading and processing the audio...'):
         # Download and process the audio file
-        video_title, audio_filename = save_audio(url_link)
+        video_title, audio_filename, temp_directory = save_audio(url_link)
 
     with st.spinner('Transcript is being generated...'):
         # Generate the transcript from the audio file
@@ -109,27 +114,27 @@ if st.button('Start'):
 
     # Prepare filenames with the sanitized title
     sanitized_title = sanitize_file_title(video_title)
-    file_title = '_'.join(sanitized_title.split()[:5])
+    title_words = sanitized_title.split()[:5]
+    file_title = '_'.join(title_words)
 
     # Save the transcript and article as text files
-    output_directory = "output"
-    os.makedirs(output_directory, exist_ok=True)
+    transcript_filename = f"output/transcript_{file_title}.txt"
+    transcript_txt = open(transcript_filename, 'w', encoding=sys.getfilesystemencoding())
+    transcript_txt.write(transcript)
+    transcript_txt.close()
 
-    transcript_filename = f"{output_directory}/transcript_{file_title}.txt"
-    with open(transcript_filename, 'w', encoding=sys.getfilesystemencoding()) as transcript_file:
-        transcript_file.write(transcript)
-
-    article_filename = f"{output_directory}/article_{file_title}.txt"
-    with open(article_filename, 'w', encoding=sys.getfilesystemencoding()) as article_file:
-        article_file.write(result)
+    article_filename = f"output/article_{file_title}.txt"
+    article_txt = open(article_filename, 'w', encoding=sys.getfilesystemencoding())
+    article_txt.write(result)
+    article_txt.close()
 
     # Create a ZIP file containing the transcript, article, and audio file
-    zip_filename = f"{output_directory}/{file_title}.zip"
+    zip_filename = f"output/{file_title}.zip"
     with ZipFile(zip_filename, 'w') as zip_file:
-        zip_file.write(transcript_filename, os.path.basename(transcript_filename))
-        zip_file.write(article_filename, os.path.basename(article_filename))
+        zip_file.write(transcript_filename)
+        zip_file.write(article_filename)
         if create_audio:
-            zip_file.write(tts_filename, os.path.basename(tts_filename))
+            zip_file.write(tts_filename)
 
     with st.spinner('Saving the files and creating the ZIP...'):
         # Provide download link for the ZIP file
@@ -141,7 +146,5 @@ if st.button('Start'):
                 mime="application/zip"
             )
 
-    # Remove the audio file
-    os.remove(audio_filename)
-    if create_audio:
-        os.remove(tts_filename)
+    # Remove the temporary directory
+    shutil.rmtree(temp_directory)
