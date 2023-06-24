@@ -49,25 +49,38 @@ def audio_to_transcript(audio_file):
     # Convert audio file to transcript using the loaded whisper model
     model = load_model()
     result = model.transcribe(audio_file)
-    transcript = limit_string_length(result["text"], 4000)
+    transcript = result["text"]
     return transcript
 
 def text_to_news_article(prompt, transcript):
-    # Generate a news article based on the given prompt and transcript using OpenAI's text-davinci-003 model
-    try:
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt + "\n\n" + transcript,
-            temperature=0.7,
-            max_tokens=500,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        return response.choices[0].text
-    except openai.OpenAIError as e:
-        st.error(f"OpenAI API Error: {str(e)}")
-        st.stop()
+    max_tokens = 4096  # Maximum token limit for API call
+    chunk_size = 4000  # Maximum chunk size for each API call
+    completion_tokens = 3000  # Maximum tokens for each completion
+
+    # Split the transcript into smaller chunks
+    chunks = [transcript[i:i + chunk_size] for i in range(0, len(transcript), chunk_size)]
+
+    generated_article = ""
+
+    for chunk in chunks:
+        try:
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=prompt + "\n\n" + chunk,
+                temperature=0.7,
+                max_tokens=completion_tokens,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0
+            )
+            generated_article += response.choices[0].text
+        except openai.OpenAIError as e:
+            st.error(f"OpenAI API Error: {str(e)}")
+            st.stop()
+
+    return generated_article
+
+
 
 def generate_tts_audio(text, filename):
     # Generate an MP3 audio file using gTTS with a female voice
